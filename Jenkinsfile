@@ -74,6 +74,7 @@ pipeline{
         stage("Create dockerfile"){
             steps{
                 script{
+                    sh 'sudo su'
                     sh 'docker build -t $JOB_NAME:v1.$BUILD_ID .'
                     sh 'docker image tag $JOB_NAME:v1.$BUILD_ID soham1234/$JOB_NAME:v1.$BUILD_ID'
                     sh 'docker login -u soham1234 -p Soham@4290'
