@@ -85,11 +85,11 @@ pipeline{
             steps{
                 script{
                         withCredentials([sshUserPrivateKey(credentialsId: 'jenkins-deployment', keyFileVariable: 'soham-Devops.pem', usernameVariable: 'ec2-user')]) {
-                            sh '''
+                            sh """
                                 ssh -o 'StrictHostKeyChecking=no' -i ${SSH_KEY} ec2-user@54.166.49.249 
-                                docker pull soham1234/$JOB_NAME:v1.$BUILD_ID
-                                docker run -p 9090:9099 -itd soham1234/$JOB_NAME:v1.$BUILD_ID
-                                '''
+                                'docker pull soham1234/$JOB_NAME:v1.$BUILD_ID'
+                                'docker run -p 9090:9099 -itd soham1234/$JOB_NAME:v1.$BUILD_ID'
+                            """
                         }
                         
                     }
