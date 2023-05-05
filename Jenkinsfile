@@ -84,7 +84,7 @@ pipeline{
         stage('SSH Test') {
             steps {
                 sshagent (credentials: ['jenkins-deployment']) {
-                    sh 'ssh ec2-user@54.166.49.249 "docker pull soham1234/$JOB_NAME:v1.$BUILD_ID;docker pull soham1234/$JOB_NAME:v1.$BUILD_ID"'
+                    sh 'ssh ec2-user@54.166.49.249 "docker rm -f $JOB_NAME;docker pull soham1234/$JOB_NAME:v1.$BUILD_ID;docker run -p 9090:9099 -itd --name $JOB_NAME soham1234/$JOB_NAME:v1.$BUILD_ID"'
                 }
             }
         }
