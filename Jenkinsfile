@@ -29,15 +29,15 @@ pipeline{
                 }
             }
         }
-        stage("Static Code Analysis"){
-            steps{
-                script{
-                    withSonarQubeEnv(credentialsId: 'sonarqube') {
-                      sh 'mvn clean package sonar:sonar'
-                    }
-                }
-            }
-        }
+        // stage("Static Code Analysis"){
+        //     steps{
+        //         script{
+        //             withSonarQubeEnv(credentialsId: 'sonarqube') {
+        //               sh 'mvn clean package sonar:sonar'
+        //             }
+        //         }
+        //     }
+        // }
         // stage("Quality Gate status"){
         //     steps{
         //         script{
@@ -46,31 +46,31 @@ pipeline{
         //         }
         //     }
         // }
-        stage("Upload jar file to nexus"){
-            steps{
-                script{
-                    def readPomVersion = readMavenPom file: 'pom.xml'
+        // stage("Upload jar file to nexus"){
+        //     steps{
+        //         script{
+        //             def readPomVersion = readMavenPom file: 'pom.xml'
 
-                    def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release"
+        //             def nexusRepo = readPomVersion.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release"
                     
-                    nexusArtifactUploader artifacts: 
-                    [
-                        [
-                            artifactId: 'spring-boot-starter-parent', 
-                            classifier: '', file: 'target/Uber.jar', 
-                            type: 'jar'
-                            ]
-                    ], 
-                    credentialsId: '4c162fa8-e0f0-49b6-9992-a57c1030823b', 
-                    groupId: 'com.example', 
-                    nexusUrl: '23.20.140.89:8081', 
-                    nexusVersion: 'nexus3', 
-                    protocol: 'http', 
-                    repository: "${nexusRepo}", 
-                    version: "${readPomVersion.version}"
-                }
-            }
-        }
+        //             nexusArtifactUploader artifacts: 
+        //             [
+        //                 [
+        //                     artifactId: 'spring-boot-starter-parent', 
+        //                     classifier: '', file: 'target/Uber.jar', 
+        //                     type: 'jar'
+        //                     ]
+        //             ], 
+        //             credentialsId: '4c162fa8-e0f0-49b6-9992-a57c1030823b', 
+        //             groupId: 'com.example', 
+        //             nexusUrl: '23.20.140.89:8081', 
+        //             nexusVersion: 'nexus3', 
+        //             protocol: 'http', 
+        //             repository: "${nexusRepo}", 
+        //             version: "${readPomVersion.version}"
+        //         }
+        //     }
+        // }
         stage("Create dockerfile"){
             steps{
                 script{
